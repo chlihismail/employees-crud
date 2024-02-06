@@ -2,6 +2,7 @@ package com.ci.ems.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -15,7 +16,11 @@ public class Department {
 
     private String name;
 
-    @OneToMany(mappedBy = "department")
+    @OneToMany(
+        mappedBy = "department",
+        orphanRemoval = true,
+        cascade = CascadeType.ALL
+    )
     private List<Employee> employees;
 
     public Department(){}

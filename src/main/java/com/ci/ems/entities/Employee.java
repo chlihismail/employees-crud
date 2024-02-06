@@ -3,6 +3,7 @@ package com.ci.ems.entities;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,15 +35,23 @@ public class Employee {
     @Column( nullable = false )
     private EmployeeRole role;
 
-    @OneToOne
+    @OneToOne(
+        orphanRemoval = true,
+        cascade = CascadeType.ALL
+    )
     @JoinColumn(name = "address_id")
     private Address address;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "department_id")
     private Department department;
 
-    @ManyToMany
+    @ManyToMany(
+        cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+        }
+    )
     @JoinTable(
         name = "employee_mission",
         joinColumns = @JoinColumn(name = "employee_id"),

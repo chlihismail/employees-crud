@@ -2,6 +2,7 @@ package com.ci.ems.entities;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -16,7 +17,13 @@ public class Mission {
     private String name;
     private Integer duration;
 
-    @ManyToMany(mappedBy = "missions")
+    @ManyToMany(
+        mappedBy = "missions",
+        cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+        }
+    )
     private List<Employee> employees;
     
     public Mission(){}
