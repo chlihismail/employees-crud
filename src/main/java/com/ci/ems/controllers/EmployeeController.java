@@ -8,11 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ci.ems.dtos.EmployeeDTO;
-import com.ci.ems.entities.Employee;
+import com.ci.ems.dtos.EmployeeDto;
 import com.ci.ems.services.EmployeeService;
-
-import io.micrometer.common.lang.NonNull;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -24,39 +21,61 @@ public class EmployeeController {
     
     //Get employee by id
     @RequestMapping(method = RequestMethod.GET, value = "/employees/{id}")
-    public EmployeeDTO getEmployeeById(@PathVariable Integer id){
-        if(id != null){
+    public EmployeeDto getEmployeeById(@PathVariable Integer id){
+        if (id == null) {
+            throw new IllegalArgumentException("id field cannot be empty");
+        }
+        try {
             return employeeService.getEmployeeById(id);
-        }else{ return null; }
+        } catch (Exception e) {
+            System.out.println("check that the id is an Integer");
+            return null;
+        }
     }
     
     //Get all employees
     @RequestMapping(method = RequestMethod.GET, value = "/employees")
-    public List<EmployeeDTO> getAllEmployees() {
+    public List<EmployeeDto> getAllEmployees() {
         return employeeService.getAllEmployees();
     }
     
     //Post employee
     @RequestMapping(method = RequestMethod.POST, value = "/employees")
-    public void addEmployee(@RequestBody EmployeeDTO employeeDTO){
-        if(employeeDTO != null){
-            employeeService.addEmployee(employeeDTO);
-        }else{ return; }
+    public void addEmployee(@RequestBody EmployeeDto employeeDto){
+        if(employeeDto == null){
+            throw new IllegalArgumentException("Json object cannot be empty");
+        }
+        try {
+            
+            employeeService.addEmployee(employeeDto);
+        } catch (Exception e) {
+            System.out.println("check that the object is well structured");
+        }
     }
 
-    // // Update Course
-    // @RequestMapping(method = RequestMethod.PUT, value = "/employees/{id}")
-    // public void updateEmployee(@RequestBody EmployeeDTO employeeDTO, @PathVariable Integer id){
-    //     if(employeeDTO != null && id != null){
-    //         employeeService.updateEmployee(id, employeeDTO);
-    //     }else{ return; }
-    // }
+    // Update Course
+    @RequestMapping(method = RequestMethod.PUT, value = "/employees/{id}")
+    public void updateEmployee(@PathVariable Integer id, @RequestBody EmployeeDto employeeDto){
+        if(employeeDto == null || id == null){
+            throw new IllegalArgumentException("empty field");
+        }
+        try {
+            employeeService.updateEmployee(id, employeeDto);
+        } catch (Exception e) {
+            System.out.println("Something failed in the process");
+        }
+    }
 
     //Delete employee
     @RequestMapping(method = RequestMethod.DELETE, value = "employees/{id}")
     public void deleteEmployee(@PathVariable Integer id){
-        if(id != null){
+        if(id == null){
+            throw new IllegalArgumentException("id field cannot be empty");
+        }
+        try {
             employeeService.deleteEmployee(id);
-        }else{ return; }
+        } catch (Exception e) {
+            System.out.println("check that the id is an Integer");
+        }
     }
 }

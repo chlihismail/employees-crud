@@ -8,7 +8,7 @@ import com.ci.ems.entities.Department;
 import com.ci.ems.entities.EmployeeRole;
 import com.ci.ems.entities.Mission;
 
-public record EmployeeDTO(
+public record EmployeeDto(
     String identifier,
     String name,
     String email,
