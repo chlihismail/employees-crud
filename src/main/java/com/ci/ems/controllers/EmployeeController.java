@@ -28,7 +28,7 @@ public class EmployeeController {
         try {
             return employeeService.getEmployeeById(id);
         } catch (Exception e) {
-            System.out.println("check that the id is an Integer");
+            System.out.println("Not found");
             return null;
         }
     }
@@ -49,7 +49,7 @@ public class EmployeeController {
             
             employeeService.addEmployee(employeeDto);
         } catch (Exception e) {
-            System.out.println("check that the object is well structured");
+            System.out.println("Something failed in the process");
         }
     }
 
@@ -75,7 +75,7 @@ public class EmployeeController {
         try {
             employeeService.deleteEmployee(id);
         } catch (Exception e) {
-            System.out.println("check that the id is an Integer");
+            System.out.println("Something failed in the process");
         }
     }
 }
